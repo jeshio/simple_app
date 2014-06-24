@@ -3,8 +3,6 @@ include ApplicationHelper
 
 describe "Static pages" do
 
-  let(:base_title) { "ROR Tutor" }
-
   subject { page }
 
   shared_examples_for "all static pages" do
