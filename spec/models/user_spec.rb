@@ -68,9 +68,20 @@ describe User do
   	it { should_not be_valid }
   end
 
+  describe "check downcase to email before adding" do
+  	before do
+  		@user.email.upcase!
+  		@user.save
+  		@user.reload
+  	end
+  	subject { @user.email }
+
+  	it { should eq @user.email.downcase }
+  end
+
   describe "when email format is invalid" do
   	it "should be invalid" do
-	  	addresses = %w[useR@foo,com usee@f+om.com res.s_ndd.com good@mail.c-r]
+	  	addresses = %w[useR@foo,com usee@f+om.com res.s_ndd.com good@mail.c-r oo@bar..com]
 	  	addresses.each do |invalid_mail|
 	  		@user.email = invalid_mail
 	  		expect(@user).not_to be_valid
