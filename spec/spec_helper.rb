@@ -2,6 +2,8 @@ require 'rubygems'
 require 'spork'
 
 Spork.prefork do
+  # This code will be run each time you run your specs.
+  require 'factory_girl_rails'
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
