@@ -4,7 +4,7 @@ describe "UserPages" do
     subject { page }
 
     describe "profile page" do
-    	let(:user) { FactoryGirl.create(:user) }
+        let(:user) { FactoryGirl.create(:user) }
     	before { visit user_path(user) }
 
     	it { should have_content(user.name) }
@@ -51,8 +51,15 @@ describe "UserPages" do
                 before { click_button submit }
                 let(:user) { User.find_by(email: "test@test.ru") }
 
+                it { should have_link('Sign out') }
                 it { should have_title(user.name) }
                 it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+
+                describe "followed by signout" do
+                    before { click_link("Sign out") }
+                    it { should have_link('Sign in') }
+                end
+                
             end
         end
 

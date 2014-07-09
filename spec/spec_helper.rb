@@ -3,7 +3,7 @@ require 'spork'
 
 Spork.prefork do
   # This code will be run each time you run your specs.
-  require 'factory_girl_rails'
+
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
@@ -55,5 +55,5 @@ end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
-
+  Dir["#{Rails.root}/spec/support/*.rb"].each {|f| load f}
 end

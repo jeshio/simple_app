@@ -20,7 +20,7 @@ group :test do
   gem "minitest"
   gem 'guard-spork', '1.5.0'
   gem 'childprocess', '0.3.6'
-  gem 'factory_girl_rails', '4.2.1', require: false
+  gem 'factory_girl_rails', '4.2.1'
 end
 
 gem 'sass-rails', '~> 4.0.2'
