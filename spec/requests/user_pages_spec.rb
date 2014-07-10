@@ -53,7 +53,7 @@ describe "UserPages" do
 
                 it { should have_link('Sign out') }
                 it { should have_title(user.name) }
-                it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+                it { should have_success_message('Welcome') }
 
                 describe "followed by signout" do
                     before { click_link("Sign out") }
