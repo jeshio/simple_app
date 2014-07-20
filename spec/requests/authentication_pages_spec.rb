@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "AuthenticationPages" do
   subject { page }
+  let(:user) { FactoryGirl.create(:user) }
 
   describe "signin page" do
   	before { visit signin_path }
@@ -15,6 +16,12 @@ describe "AuthenticationPages" do
   		it { should have_title("Sign in") }
   		it { should have_error_message() }
 
+      it { should_not have_link("Users") }
+      it { should_not have_link("Profile") }
+      it { should_not have_link("Settings") }
+      it { should_not have_link("Sign out") }
+      it { should have_link("Sign in") }
+
   		describe "after visiting another page" do
   			before { click_link("Home") }
   			it { should_not have_error_message() }
@@ -23,7 +30,6 @@ describe "AuthenticationPages" do
   	end
 
   	describe "with valid info" do
-  		let(:user) { FactoryGirl.create(:user) }
 
   		before do
   			sign_in user
@@ -63,15 +69,24 @@ describe "AuthenticationPages" do
       describe "when attempting to visit a protected page" do
         before do
           visit edit_user_path(user)
-          fill_in "Email",    with: user.email
-          fill_in "Password",    with: user.password
-          click_button "Sign in"
+          sign_in user
         end
 
         describe "after signing in" do
 
           it "should render the desired protected page" do
             expect(page).to have_title('Edit user')
+          end
+        end
+
+        describe "request 'Sign in' page" do
+          before do
+            delete signout_path
+            sign_in user
+          end
+
+          it "should render the profile page" do
+            expect(page).to have_title(user.name)
           end
         end
 
