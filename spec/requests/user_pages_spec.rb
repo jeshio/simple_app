@@ -77,10 +77,19 @@ describe "UserPages" do
     end
 
     describe "profile page" do
+        let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Double") }
+        let!(:m2) { FactoryGirl.create(:micropost, user: user, content: "KILL!!") }
+
     	before { visit user_path(user) }
 
     	it { should have_content(user.name) }
     	it { should have_title(user.name) }
+
+        describe "microposts list" do
+            it { should have_content(m1.content) }
+            it { should have_content(m2.content) }
+            it { should have_content(user.microposts.count) }
+        end
 
     end
 
