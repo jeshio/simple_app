@@ -35,6 +35,27 @@ describe "Static pages" do
           expect(page).to have_selector("li##{item.id}", text: item.content)
         end
       end
+
+      it "should have pluralize count" do
+        expect(page).to have_selector("span", text: "micropost".pluralize(user.feed.count))
+      end
+
+      describe "pagination" do
+        before do
+          Micropost.delete_all
+          31.times { FactoryGirl.create(:micropost, user: user, content: "Lalalala") }
+          visit root_path
+        end
+
+        it { should have_selector('div.pagination') }
+
+        it "should list each micropost" do
+            user.feed.paginate(page: 1).each do |item|
+                expect(page).to have_selector('li', text: item.content)
+            end
+        end
+
+      end
     end
   end
 
